@@ -8,58 +8,75 @@ class ListaController extends ChangeNotifier {
   //Método especial acessor para acessar a lista de compras e manipular-la
   List<Lista> get lista => _lista;
 
-  //Métodos CRUD
+  bool _ordenar = true;
 
-  //Método para adicionar o item da compra
+  //Ordenando a lista
+  void ordenarLista() {
+  _lista.sort((a, b) {
+    final comparison = a.descricao.compareTo(b.descricao);
+    return _ordenar ? comparison : -comparison;
+  });
+  _ordenar = !_ordenar; //inverte a ordem
+  notifyListeners();
+}
+
   void adicionarItem(String descricao, BuildContext context) {
-    //Verificação para ver se o produto já existe no array com any()
-    if (_lista.any((item) => item.descricao == descricao)) {
-      //Se ele já existir exibe um pop-ip que dura 1 segundo
-      showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text("Compras"),
-              content: Text("Item já existe"),
-            );
-          });
-      Future.delayed(Duration(milliseconds: 1000), () {
-        Navigator.pop(context);
-      });
-    } else if (descricao.length < 1) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Aviso'),
-            content: Text("Não é possível inserir um item vazio"),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text("OK"),
-              )
-            ],
-          );
-        },
-      );
-    } else {
-      _lista.add(Lista(descricao, false));
-      notifyListeners();
-      showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text("Compras"),
-              content: Text("Item adicionado"),
-            );
-          });
-      Future.delayed(Duration(milliseconds: 1000), () {
-        Navigator.pop(context);
-      });
-    }
+  // Remover espaços em branco no início e no final da descrição
+  String descricaoSemEspacos = descricao.trim();
+
+  // Verificar se o produto já existe na lista usando a descrição sem espaços
+  if (_lista.any((item) => item.descricao.trim() == descricaoSemEspacos)) {
+    // Se ele já existir, exibir um pop-up que dura 1 segundo
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Item duplicado"),
+          content: Text("Item já existe"),
+        );
+      },
+    );
+    Future.delayed(Duration(milliseconds: 1000), () {
+      Navigator.pop(context);
+    });
+  } else if (descricaoSemEspacos.isEmpty) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Aviso'),
+          content: Text("Não é possível inserir um item vazio"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text("OK"),
+            )
+          ],
+        );
+      },
+    );
+  } else {
+    // Adicionar na lista
+    _lista.add(Lista(descricaoSemEspacos, false));
+    notifyListeners();
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Compras"),
+          content: Text("Item adicionado"),
+        );
+      },
+    );
+    Future.delayed(Duration(milliseconds: 1000), () {
+      Navigator.pop(context);
+    });
   }
+}
+
 
 //Método para marcar a compra como concluida
   void marcarComoConcluido(int indice) {
@@ -80,19 +97,49 @@ class ListaController extends ChangeNotifier {
   }
 
   //Método para excluir uma compra
-  void excluirCompra(int indice) {
+  void excluirCompra(int indice, BuildContext context) {
     if (indice >= 0 && indice < _lista.length) {
       _lista.removeAt(indice);
       // Notifica os ouvintes (widgets) sobre a mudança no estado
       notifyListeners();
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Atenção"),
+              content: Text("Item excluído"),
+            );
+          });
+      Future.delayed(Duration(milliseconds: 1000), () {
+        Navigator.pop(context);
+      });
     }
   }
 
   //Método para atualizar o item da compra
-  void atualizarCompra(int indice, String novaDescricao) {
-    _lista[indice].descricao = novaDescricao;
-
-    notifyListeners();
-    
+  void atualizarCompra(int indice, String novaDescricao, BuildContext context) {
+    if (_lista.any((item) => item.descricao == novaDescricao)) {
+    } else if (novaDescricao.length < 1) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Aviso'),
+            content: Text("Não é possível inserir um item vazio"),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text("OK"),
+              )
+            ],
+          );
+        },
+      );
+    } else {
+      _lista[indice].descricao = novaDescricao;
+      notifyListeners();
+    }
   }
 }

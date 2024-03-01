@@ -10,7 +10,7 @@ class ListaView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Lista de compras'),
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.green,
       ),
       body: Column(
         children: [
@@ -20,14 +20,26 @@ class ListaView extends StatelessWidget {
               controller: _controller,
               decoration: InputDecoration(
                 labelText: 'Nova Compra',
-                suffixIcon: IconButton(
-                  onPressed: () {
-                    Provider.of<ListaController>(context, listen: false)
-                        .adicionarItem(_controller.text, context);
-                    //Limpar o campo de texto após adicionar tarefa
-                    _controller.clear();
-                  },
-                  icon: Icon(Icons.add),
+                suffixIcon: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        Provider.of<ListaController>(context, listen: false)
+                            .adicionarItem(_controller.text, context);
+                        _controller.clear();
+                      },
+                      icon: Icon(Icons.add),
+                    ),
+                    SizedBox(width: 8.0), // Espaçamento entre ícones
+                    IconButton(
+                      onPressed: () {
+                        Provider.of<ListaController>(context, listen: false)
+                            .ordenarLista();
+                      },
+                      icon: Icon(Icons.sort),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -64,7 +76,7 @@ class ListaView extends StatelessWidget {
                           IconButton(
                             icon: Icon(Icons.clear),
                             onPressed: () {
-                              model.excluirCompra(index);
+                              model.excluirCompra(index, context);
                             },
                           ),
                         ],
@@ -85,8 +97,6 @@ class ListaView extends StatelessWidget {
       BuildContext context, ListaController model, int index) {
     TextEditingController _controller =
         TextEditingController(text: model.lista[index].descricao);
-
-//Em processo de desenvolvimento para passar isso para o controller
     showDialog(
       context: context,
       builder: (context) {
@@ -107,7 +117,7 @@ class ListaView extends StatelessWidget {
             ),
             TextButton(
               onPressed: () {
-                model.atualizarCompra(index, _controller.text);
+                model.atualizarCompra(index, _controller.text, context);
                 Navigator.of(context).pop();
               },
               child: Text('Salvar'),
