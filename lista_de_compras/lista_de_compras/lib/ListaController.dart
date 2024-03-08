@@ -59,8 +59,17 @@ class ListaController extends ChangeNotifier {
     );
   } else {
     // Adicionar na lista
+
+
+
+
+
     _lista.add(Lista(descricaoSemEspacos, false));
     notifyListeners();
+
+
+
+
 
     showDialog(
       context: context,
