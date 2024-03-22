@@ -1,4 +1,6 @@
 import 'package:app_flutter/screens/ChatPage.dart';
+import 'package:app_flutter/screens/Dashboard.dart';
+import 'package:app_flutter/screens/FormularioCadastro.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -11,8 +13,7 @@ class _HomePageState extends State<HomePage> {
 
   final List<Widget> _pages = [
     ChatPage(), // tela 1
-    Container(
-        color: Colors.green, child: Center(child: Text('Canais'))), // tela 2
+    DashBoards(), // tela 2
     FormularioCadastro(), // tela 3
   ];
 
@@ -53,66 +54,7 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-class FormularioCadastro extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    double responsivo = MediaQuery.of(context).size.width;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Cadastro'),
-      ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            TextFormField(
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return "Não é possível enviar o formulário vazio";
-                }
-                return null;
-              },
-              decoration: InputDecoration(
-                labelText: 'Nome',
-                border: OutlineInputBorder(),
-              ),
-            ),
-            SizedBox(height: 20.0),
-            TextFormField(
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return "Não é possível enviar o formulário vazio";
-                }
-                return null;
-              },
-              decoration: InputDecoration(
-                labelText: 'Email',
-                border: OutlineInputBorder(),
-              ),
-            ),
-            SizedBox(height: 20.0),
-            TextFormField(
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return "Não é possível enviar o formulário vazio";
-                }
-                return null;
-              },
-              decoration: InputDecoration(
-                labelText: 'Mensagem',
-                border: OutlineInputBorder(),
-              ),
-            ),
-            SizedBox(height: 20.0),
-            ElevatedButton(
-              onPressed: () {},
-              child: Text('Enviar'),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+
+
+

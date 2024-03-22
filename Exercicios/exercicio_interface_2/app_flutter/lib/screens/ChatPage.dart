@@ -1,65 +1,71 @@
+import 'dart:html';
+import 'dart:io';
+
 import 'package:app_flutter/models/ChatUsersModel.dart';
 import 'package:app_flutter/widgets/conversationList.dart';
 import 'package:flutter/material.dart';
 
 class ChatPage extends StatefulWidget {
   @override
-  _ChatPageState createState() => _ChatPageState();
+  _ChatPageState createState() =>
+      _ChatPageState(); //Criando estado para poder armazenar o array de mensagens
 }
 
+//Criando uma classe privada para armazenar o array das mensagens(as mensagens são estáticas)
 class _ChatPageState extends State<ChatPage> {
   List<ChatUsers> chatUsers = [
     ChatUsers(
         name: "Eduardo Ananias",
-        messageText: "Como você tá mano?",
+        messageText: "Como você está, colega?",
         imageUrl: "images/userImage1.jpg",
         time: "Agora"),
     ChatUsers(
-        name: "Eduardo Ananias",
-        messageText: "Como você tá mano?",
-        imageUrl: "images/userImage1.jpg",
-        time: "Agora"),
+        name: "Alexandre Savarino",
+        messageText: "HAHAHAH, boa!!",
+        imageUrl: "images/userImage2.jpg",
+        time: "Há 2 min."),
     ChatUsers(
-        name: "Eduardo Ananias",
-        messageText: "Como você tá mano?",
-        imageUrl: "images/userImage1.jpg",
-        time: "Agora"),
+        name: "Elizabeth Maeve",
+        messageText: "Até logo!",
+        imageUrl: "images/userImage9.jpg",
+        time: "Há 7 min."),
     ChatUsers(
-        name: "Eduardo Ananias",
-        messageText: "Como você tá mano?",
-        imageUrl: "images/userImage1.jpg",
-        time: "Agora"),
+        name: "Raphael Veiga",
+        messageText: "Avanti, Palestra!",
+        imageUrl: "images/userImage4.jpg",
+        time: "Há 2 hrs."),
     ChatUsers(
-        name: "Eduardo Ananias",
-        messageText: "Como você tá mano?",
-        imageUrl: "images/userImage1.jpg",
-        time: "Agora"),
+        name: "Eduard Franc.",
+        messageText: "Reunião de negócios, ama...",
+        imageUrl: "images/userImage5.jpg",
+        time: "Há 9 hrs."),
     ChatUsers(
-        name: "Eduardo Ananias",
-        messageText: "Como você tá mano?",
-        imageUrl: "images/userImage1.jpg",
-        time: "Agora"),
+        name: "Francisco Corrêa",
+        messageText: "Consegue aceitar o PR?",
+        imageUrl: "images/userImage6.jpg",
+        time: "Há 1 dia."),
     ChatUsers(
-        name: "Eduardo Ananias",
-        messageText: "Como você tá mano?",
-        imageUrl: "images/userImage1.jpg",
-        time: "Agora"),
+        name: "Stella Liz",
+        messageText: "Palmeirass! Campeões!",
+        imageUrl: "images/userImage7.jpg",
+        time: "Há 2 dias."),
     ChatUsers(
-        name: "Eduardo Ananias",
-        messageText: "Como você tá mano?",
-        imageUrl: "images/userImage1.jpg",
-        time: "Agora"),
+        name: "Pedro Henrique",
+        messageText: "E o Palmeiras, venceu hoje!",
+        imageUrl: "images/userImage8.jpg",
+        time: "Há 2 dias."),
     ChatUsers(
-        name: "Eduardo Ananias",
-        messageText: "Como você tá mano?",
-        imageUrl: "images/userImage1.jpg",
-        time: "Agora"),
+        name: "+55 (11) 98745-3362",
+        messageText: "Como você está?",
+        imageUrl: "images/userImage3.jpg",
+        time: "Há 2 dias."),
     ChatUsers(
-        name: "Eduardo Ananias",
-        messageText: "Como você tá mano?",
-        imageUrl: "images/userImage1.jpg",
-        time: "Agora"),
+        name: "Annie Hasbor",
+        messageText: "Você tem lição a ser entregue!",
+        imageUrl: "images/userImage10.jpg",
+        time: "Há 2 dias."),
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,7 +82,62 @@ class _ChatPageState extends State<ChatPage> {
         ),
       ),
       drawer: Drawer(
-        child: ListView()),
+        child: Column(
+          children: [
+            UserAccountsDrawerHeader(
+              accountName: const Text(
+                'Igor Oliveira',
+                style: TextStyle(color: Colors.black),
+              ),
+              accountEmail: const Text(
+                '',
+                style: TextStyle(color: Colors.black),
+              ),
+              decoration: const BoxDecoration(
+                color: Colors.deepPurple,
+              ),
+            ),
+            Row(
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(left: 10),
+                  child: Text(
+                    'Chats Principais',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                  ),
+                ),
+                Expanded(child: Container()),
+                Padding(
+                  padding: EdgeInsets.only(right: 10),
+                  child: Icon(Icons.favorite),
+                ),
+              ],
+            ),
+            const ListTile(
+              leading: CircleAvatar(
+                backgroundImage: AssetImage("images/userImage9.jpg"),
+              ),
+              title: Text('Elizabeth Maeve',
+                  style: TextStyle(fontWeight: FontWeight.bold)),
+              subtitle: Text(
+                'Mensagens Frequentes',
+              ),
+            ),
+            ListTile(
+              leading: CircleAvatar(
+                backgroundImage: AssetImage("images/userImage1.jpg")
+              ),
+              title: Text(
+                'Eduardo Ananias',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              subtitle: Text('Mensagens Recentes'),
+            ),
+            Divider(
+              color: Colors.black54,
+            )
+          ],
+        ),
       ),
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),

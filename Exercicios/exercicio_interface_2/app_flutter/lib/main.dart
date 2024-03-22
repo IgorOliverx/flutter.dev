@@ -7,6 +7,8 @@ void main() {
 
 class MyApp extends StatelessWidget {
   @override
+
+  
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'FlutterApp',
@@ -14,6 +16,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       debugShowCheckedModeBanner: false,
+
       home: HomePage(),
     );
   }
